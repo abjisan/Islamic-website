@@ -41,8 +41,8 @@
             <div class="location-controls">
                 <button id="getLocationBtn" class="btn btn-primary"><i class="fas fa-location-dot"></i> Use My Location</button>
                 <div class="manual-location">
-                    <input type="text" id="cityInput" placeholder="Enter city name">
-                    <input type="text" id="countryInput" placeholder="Enter country">
+                    <input type="text" id="cityInput" placeholder="Enter city (e.g., Makkah)">
+                    <input type="text" id="countryInput" placeholder="Enter country (e.g., Saudi Arabia)">
                     <button id="searchLocationBtn" class="btn btn-secondary">Get Times</button>
                 </div>
             </div>
@@ -97,7 +97,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>About IslamicGuide</h3>
-                    <p>Providing authentic Islamic knowledge to help you understand and practice Islam correctly.</p>
+                    <p>Providing authentic Islamic knowledge.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
@@ -105,29 +105,274 @@
                         <li><a href="quran.html">Quran</a></li>
                         <li><a href="hadith.html">Hadith</a></li>
                         <li><a href="prayers.html">Prayer Times</a></li>
-                        <li><a href="duas.html">Duas</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="https://quran.com" target="_blank">Quran.com</a></li>
-                        <li><a href="https://sunnah.com" target="_blank">Sunnah.com</a></li>
-                        <li><a href="https://islamqa.info" target="_blank">IslamQA</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 IslamicGuide. All rights reserved.</p>
-                <div class="disclaimer">
-                    <i class="fas fa-info-circle"></i> 
-                    Prayer times are calculated using standard calculation methods.
-                </div>
             </div>
         </div>
     </footer>
 
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .prayer-times-section {
+            padding: 60px 0;
+        }
+        .location-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .manual-location {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .manual-location input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .prayer-times-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+        .prayer-times-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .prayer-time-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light-green);
+            border-radius: 10px;
+        }
+        .prayer-time-item i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .prayer-time-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-green);
+        }
+        .prayer-time-item p {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+        .next-prayer {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gold);
+            color: white;
+            border-radius: 10px;
+        }
+        .current-date {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        @media (max-width: 768px) {
+            .manual-location {
+                flex-direction: column;
+            }
+        }
+    </style>
+
     <script src="js/main.js"></script>
-    <script src="js/prayers.js"></script>
+    <script>
+        // Fixed: Using HTTPS instead of HTTP
+        async function getPrayerTimes(city, country) {
+            try {
+                const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`;
+                console.log("Fetching:", url);
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.code === 200 && data.data) {
+                    const timings = data.data.timings;
+                    const date = data.data.date;
+                    
+                    document.getElementById('fajr').textContent = timings.Fajr;
+                    document.getElementById('sunrise').textContent = timings.Sunrise;
+                    document.getElementById('dhuhr').textContent = timings.Dhuhr;
+                    document.getElementById('asr').textContent = timings.Asr;
+                    document.getElementById('maghrib').textContent = timings.Maghrib;
+                    document.getElementById('isha').textContent = timings.Isha;
+                    
+                    document.getElementById('gregorianDate').innerHTML = `${date.gregorian.date} (${date.gregorian.weekday.en})`;
+                    document.getElementById('hijriDatePrayer').innerHTML = `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year} AH`;
+                    
+                    // Calculate next prayer
+                    calculateNextPrayer(timings);
+                    return true;
+                } else {
+                    throw new Error("Invalid response from API");
+                }
+            } catch(error) {
+                console.error('Error:', error);
+                showError("Unable to fetch prayer times. Please check city/country name.");
+                return false;
+            }
+        }
+        
+        function calculateNextPrayer(timings) {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+            
+            const prayers = [
+                { name: 'Fajr', time: timings.Fajr },
+                { name: 'Dhuhr', time: timings.Dhuhr },
+                { name: 'Asr', time: timings.Asr },
+                { name: 'Maghrib', time: timings.Maghrib },
+                { name: 'Isha', time: timings.Isha }
+            ];
+            
+            let nextPrayer = null;
+            for (let prayer of prayers) {
+                if (currentTime < prayer.time) {
+                    nextPrayer = prayer;
+                    break;
+                }
+            }
+            
+            if (!nextPrayer) {
+                nextPrayer = { name: 'Fajr (next day)', time: prayers[0].time };
+            }
+            
+            document.getElementById('nextPrayer').innerHTML = `${nextPrayer.name} at ${nextPrayer.time}`;
+        }
+        
+        function showError(message) {
+            const display = document.getElementById('prayerTimesDisplay');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+            
+            // Remove existing error
+            const oldError = display.querySelector('.error-message');
+            if (oldError) oldError.remove();
+            
+            display.insertBefore(errorDiv, display.firstChild);
+        }
+        
+        // Get location using browser geolocation
+        function getLocation() {
+            if (navigator.geolocation) {
+                // Show loading state
+                document.getElementById('fajr').textContent = '...';
+                document.getElementById('dhuhr').textContent = '...';
+                document.getElementById('asr').textContent = '...';
+                document.getElementById('maghrib').textContent = '...';
+                document.getElementById('isha').textContent = '...';
+                
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        console.log("Location obtained:", lat, lon);
+                        
+                        try {
+                            const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
+                            const response = await fetch(url);
+                            const data = await response.json();
+                            
+                            if (data.code === 200 && data.data) {
+                                const timings = data.data.timings;
+                                const date = data.data.date;
+                                
+                                document.getElementById('fajr').textContent = timings.Fajr;
+                                document.getElementById('sunrise').textContent = timings.Sunrise;
+                                document.getElementById('dhuhr').textContent = timings.Dhuhr;
+                                document.getElementById('asr').textContent = timings.Asr;
+                                document.getElementById('maghrib').textContent = timings.Maghrib;
+                                document.getElementById('isha').textContent = timings.Isha;
+                                
+                                document.getElementById('gregorianDate').innerHTML = `${date.gregorian.date} (${date.gregorian.weekday.en})`;
+                                document.getElementById('hijriDatePrayer').innerHTML = `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year} AH`;
+                                
+                                calculateNextPrayer(timings);
+                            }
+                        } catch(error) {
+                            console.error('Location error:', error);
+                            showError("Location access failed. Please enter city manually.");
+                            // Load default city as fallback
+                            getPrayerTimes('Makkah', 'Saudi Arabia');
+                        }
+                    },
+                    (error) => {
+                        console.error('Geolocation error:', error);
+                        let message = "Unable to get your location. ";
+                        if (error.code === 1) message += "Please allow location access or enter city manually.";
+                        else message += "Please enter city manually.";
+                        showError(message);
+                        // Load default city
+                        getPrayerTimes('Makkah', 'Saudi Arabia');
+                    }
+                );
+            } else {
+                showError("Geolocation is not supported by your browser. Please enter city manually.");
+                getPrayerTimes('Makkah', 'Saudi Arabia');
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const getLocationBtn = document.getElementById('getLocationBtn');
+            const searchBtn = document.getElementById('searchLocationBtn');
+            const cityInput = document.getElementById('cityInput');
+            const countryInput = document.getElementById('countryInput');
+            
+            if (getLocationBtn) {
+                getLocationBtn.addEventListener('click', getLocation);
+            }
+            
+            if (searchBtn) {
+                searchBtn.addEventListener('click', () => {
+                    const city = cityInput?.value.trim();
+                    const country = countryInput?.value.trim();
+                    if (city && country) {
+                        getPrayerTimes(city, country);
+                    } else {
+                        showError("Please enter both city and country");
+                    }
+                });
+            }
+            
+            // Enter key support
+            if (cityInput && countryInput) {
+                const search = () => {
+                    if (cityInput.value.trim() && countryInput.value.trim()) {
+                        getPrayerTimes(cityInput.value.trim(), countryInput.value.trim());
+                    }
+                };
+                cityInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
+                countryInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
+            }
+            
+            // Load default prayer times on page load
+            getPrayerTimes('Makkah', 'Saudi Arabia');
+        });
+    </script>
 </body>
 </html>
