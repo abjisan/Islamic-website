@@ -6,6 +6,161 @@
     <title>Prayer Times - IslamicGuide</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Autocomplete dropdown styles */
+        .autocomplete-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .autocomplete-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .autocomplete-dropdown.active {
+            display: block;
+        }
+        
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .autocomplete-item:hover {
+            background: var(--light-green);
+        }
+        
+        .autocomplete-item.selected {
+            background: var(--gold);
+            color: white;
+        }
+        
+        .location-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 200px;
+        }
+        
+        @media (max-width: 768px) {
+            .manual-location {
+                flex-direction: column;
+                width: 100%;
+            }
+            .input-group input {
+                width: 100%;
+            }
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .prayer-times-section {
+            padding: 60px 0;
+        }
+        
+        .prayer-times-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .prayer-times-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .prayer-time-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light-green);
+            border-radius: 10px;
+        }
+        
+        .prayer-time-item i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .prayer-time-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-green);
+        }
+        
+        .prayer-time-item p {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+        
+        .next-prayer {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gold);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .current-date {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -41,8 +196,14 @@
             <div class="location-controls">
                 <button id="getLocationBtn" class="btn btn-primary"><i class="fas fa-location-dot"></i> Use My Location</button>
                 <div class="manual-location">
-                    <input type="text" id="cityInput" placeholder="Enter city (e.g., Makkah)">
-                    <input type="text" id="countryInput" placeholder="Enter country (e.g., Saudi Arabia)">
+                    <div class="input-group">
+                        <input type="text" id="cityInput" placeholder="City (e.g., Sylhet)" autocomplete="off">
+                        <div id="citySuggestions" class="autocomplete-dropdown"></div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="countryInput" placeholder="Country (e.g., Bangladesh)" autocomplete="off">
+                        <div id="countrySuggestions" class="autocomplete-dropdown"></div>
+                    </div>
                     <button id="searchLocationBtn" class="btn btn-secondary">Get Times</button>
                 </div>
             </div>
@@ -114,96 +275,170 @@
         </div>
     </footer>
 
-    <style>
-        .page-header {
-            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        .prayer-times-section {
-            padding: 60px 0;
-        }
-        .location-controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .manual-location {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .manual-location input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .prayer-times-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-        .prayer-times-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .prayer-time-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--light-green);
-            border-radius: 10px;
-        }
-        .prayer-time-item i {
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 0.5rem;
-        }
-        .prayer-time-item h4 {
-            margin-bottom: 0.5rem;
-            color: var(--dark-green);
-        }
-        .prayer-time-item p {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary-green);
-        }
-        .next-prayer {
-            text-align: center;
-            padding: 1rem;
-            background: var(--gold);
-            color: white;
-            border-radius: 10px;
-        }
-        .current-date {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
-            margin: 1rem 0;
-        }
-        @media (max-width: 768px) {
-            .manual-location {
-                flex-direction: column;
-            }
-        }
-    </style>
-
     <script src="js/main.js"></script>
     <script>
-        // Fixed: Using HTTPS instead of HTTP
+        // ============================================
+        // CITY AND COUNTRY DATABASE FOR AUTOCOMPLETE
+        // ============================================
+        
+        // Major cities database (you can add more)
+        const citiesDB = [
+            // Bangladesh
+            "Dhaka", "Chittagong", "Sylhet", "Rajshahi", "Khulna", "Barisal", "Rangpur", "Mymensingh", "Comilla", "Narayanganj",
+            // India
+            "Delhi", "Mumbai", "Kolkata", "Chennai", "Bangalore", "Hyderabad", "Ahmedabad", "Lucknow", "Jaipur", "Kerala",
+            // Pakistan
+            "Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Multan", "Peshawar", "Quetta",
+            // Saudi Arabia
+            "Makkah", "Madinah", "Riyadh", "Jeddah", "Dammam", "Tabuk", "Abha", "Taif",
+            // UAE
+            "Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah",
+            // USA
+            "New York", "Los Angeles", "Chicago", "Houston", "Philadelphia", "Detroit", "Dearborn",
+            // UK
+            "London", "Manchester", "Birmingham", "Bradford", "Leicester", "Liverpool",
+            // Canada
+            "Toronto", "Montreal", "Vancouver", "Ottawa", "Calgary", "Edmonton",
+            // Australia
+            "Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide",
+            // Europe
+            "Paris", "Berlin", "Rome", "Madrid", "Amsterdam", "Brussels", "Stockholm",
+            // Southeast Asia
+            "Jakarta", "Kuala Lumpur", "Singapore", "Bangkok", "Manila", "Yangon",
+            // Middle East
+            "Cairo", "Istanbul", "Tehran", "Baghdad", "Amman", "Beirut", "Doha", "Kuwait City", "Muscat",
+            // Africa
+            "Cape Town", "Johannesburg", "Nairobi", "Lagos", "Casablanca", "Tunis", "Algiers",
+            // Add more as needed
+            "Mecca", "Medina", "Macca", "Makkah Al-Mukarramah"
+        ];
+        
+        // Countries database
+        const countriesDB = [
+            "Afghanistan", "Albania", "Algeria", "Argentina", "Australia", "Austria", "Bahrain", "Bangladesh",
+            "Belgium", "Bosnia", "Brazil", "Brunei", "Canada", "China", "Denmark", "Egypt", "Finland", "France",
+            "Germany", "Greece", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Italy", "Japan", "Jordan",
+            "Kazakhstan", "Kenya", "Kuwait", "Lebanon", "Malaysia", "Maldives", "Mauritania", "Morocco",
+            "Netherlands", "New Zealand", "Nigeria", "Norway", "Oman", "Pakistan", "Palestine", "Philippines",
+            "Poland", "Portugal", "Qatar", "Romania", "Russia", "Saudi Arabia", "Senegal", "Singapore",
+            "Somalia", "South Africa", "South Korea", "Spain", "Sudan", "Sweden", "Switzerland", "Syria",
+            "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Tunisia", "Turkey", "Turkmenistan", "UAE",
+            "Uganda", "Ukraine", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vietnam", "Yemen"
+        ];
+        
+        // Remove duplicates and sort
+        const cities = [...new Set(citiesDB)].sort();
+        const countries = [...new Set(countriesDB)].sort();
+        
+        // ============================================
+        // AUTOCOMPLETE FUNCTIONALITY
+        // ============================================
+        
+        function setupAutocomplete(inputId, suggestionsId, dataList) {
+            const input = document.getElementById(inputId);
+            const suggestionsDiv = document.getElementById(suggestionsId);
+            
+            if (!input || !suggestionsDiv) return;
+            
+            let currentFocus = -1;
+            
+            input.addEventListener("input", function(e) {
+                const value = this.value.toLowerCase().trim();
+                suggestionsDiv.innerHTML = "";
+                currentFocus = -1;
+                
+                if (value.length === 0) {
+                    suggestionsDiv.classList.remove("active");
+                    return;
+                }
+                
+                // Filter matching items
+                const matches = dataList.filter(item => 
+                    item.toLowerCase().includes(value)
+                ).slice(0, 10); // Show max 10 suggestions
+                
+                if (matches.length === 0) {
+                    suggestionsDiv.classList.remove("active");
+                    return;
+                }
+                
+                // Display suggestions
+                matches.forEach((match, index) => {
+                    const item = document.createElement("div");
+                    item.className = "autocomplete-item";
+                    item.innerHTML = match;
+                    item.addEventListener("click", function() {
+                        input.value = match;
+                        suggestionsDiv.classList.remove("active");
+                        // Auto-search if both fields have values
+                        const city = document.getElementById("cityInput").value;
+                        const country = document.getElementById("countryInput").value;
+                        if (city && country) {
+                            document.getElementById("searchLocationBtn").click();
+                        }
+                    });
+                    suggestionsDiv.appendChild(item);
+                });
+                
+                suggestionsDiv.classList.add("active");
+            });
+            
+            // Keyboard navigation
+            input.addEventListener("keydown", function(e) {
+                const items = suggestionsDiv.getElementsByClassName("autocomplete-item");
+                
+                if (e.key === "ArrowDown") {
+                    currentFocus++;
+                    if (currentFocus >= items.length) currentFocus = 0;
+                    addActive(items);
+                    e.preventDefault();
+                } 
+                else if (e.key === "ArrowUp") {
+                    currentFocus--;
+                    if (currentFocus < 0) currentFocus = items.length - 1;
+                    addActive(items);
+                    e.preventDefault();
+                }
+                else if (e.key === "Enter") {
+                    if (currentFocus > -1 && items[currentFocus]) {
+                        input.value = items[currentFocus].innerHTML;
+                        suggestionsDiv.classList.remove("active");
+                        currentFocus = -1;
+                        e.preventDefault();
+                    }
+                }
+            });
+            
+            function addActive(items) {
+                for (let i = 0; i < items.length; i++) {
+                    items[i].classList.remove("selected");
+                }
+                if (items[currentFocus]) {
+                    items[currentFocus].classList.add("selected");
+                }
+            }
+            
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function(e) {
+                if (!input.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                    suggestionsDiv.classList.remove("active");
+                }
+            });
+        }
+        
+        // Initialize autocomplete
+        setupAutocomplete("cityInput", "citySuggestions", cities);
+        setupAutocomplete("countryInput", "countrySuggestions", countries);
+        
+        // ============================================
+        // PRAYER TIMES API FUNCTIONS
+        // ============================================
+        
         async function getPrayerTimes(city, country) {
             try {
-                const url = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`;
+                showLoading(true);
+                
+                const url = `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=2`;
                 console.log("Fetching:", url);
                 
                 const response = await fetch(url);
@@ -223,15 +458,16 @@
                     document.getElementById('gregorianDate').innerHTML = `${date.gregorian.date} (${date.gregorian.weekday.en})`;
                     document.getElementById('hijriDatePrayer').innerHTML = `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year} AH`;
                     
-                    // Calculate next prayer
                     calculateNextPrayer(timings);
+                    showLoading(false);
                     return true;
                 } else {
                     throw new Error("Invalid response from API");
                 }
             } catch(error) {
                 console.error('Error:', error);
-                showError("Unable to fetch prayer times. Please check city/country name.");
+                showLoading(false);
+                showError(`Unable to fetch prayer times for "${city}, ${country}". Please check spelling.`);
                 return false;
             }
         }
@@ -257,7 +493,7 @@
             }
             
             if (!nextPrayer) {
-                nextPrayer = { name: 'Fajr (next day)', time: prayers[0].time };
+                nextPrayer = { name: 'Fajr (tomorrow)', time: prayers[0].time };
             }
             
             document.getElementById('nextPrayer').innerHTML = `${nextPrayer.name} at ${nextPrayer.time}`;
@@ -269,28 +505,45 @@
             errorDiv.className = 'error-message';
             errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
             
-            // Remove existing error
             const oldError = display.querySelector('.error-message');
             if (oldError) oldError.remove();
             
             display.insertBefore(errorDiv, display.firstChild);
+            
+            setTimeout(() => {
+                const err = display.querySelector('.error-message');
+                if (err) err.remove();
+            }, 5000);
         }
         
-        // Get location using browser geolocation
+        function showLoading(show) {
+            const elements = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+            if (show) {
+                elements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && el.textContent !== '--:--') {
+                        el.setAttribute('data-old', el.textContent);
+                        el.textContent = '...';
+                    }
+                });
+            } else {
+                elements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && el.textContent === '...' && el.getAttribute('data-old')) {
+                        el.textContent = el.getAttribute('data-old');
+                        el.removeAttribute('data-old');
+                    }
+                });
+            }
+        }
+        
         function getLocation() {
             if (navigator.geolocation) {
-                // Show loading state
-                document.getElementById('fajr').textContent = '...';
-                document.getElementById('dhuhr').textContent = '...';
-                document.getElementById('asr').textContent = '...';
-                document.getElementById('maghrib').textContent = '...';
-                document.getElementById('isha').textContent = '...';
-                
+                showLoading(true);
                 navigator.geolocation.getCurrentPosition(
                     async (position) => {
                         const lat = position.coords.latitude;
                         const lon = position.coords.longitude;
-                        console.log("Location obtained:", lat, lon);
                         
                         try {
                             const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
@@ -312,31 +565,35 @@
                                 document.getElementById('hijriDatePrayer').innerHTML = `${date.hijri.day} ${date.hijri.month.en} ${date.hijri.year} AH`;
                                 
                                 calculateNextPrayer(timings);
+                                showLoading(false);
                             }
                         } catch(error) {
                             console.error('Location error:', error);
+                            showLoading(false);
                             showError("Location access failed. Please enter city manually.");
-                            // Load default city as fallback
                             getPrayerTimes('Makkah', 'Saudi Arabia');
                         }
                     },
                     (error) => {
                         console.error('Geolocation error:', error);
+                        showLoading(false);
                         let message = "Unable to get your location. ";
                         if (error.code === 1) message += "Please allow location access or enter city manually.";
                         else message += "Please enter city manually.";
                         showError(message);
-                        // Load default city
                         getPrayerTimes('Makkah', 'Saudi Arabia');
                     }
                 );
             } else {
-                showError("Geolocation is not supported by your browser. Please enter city manually.");
+                showError("Geolocation not supported. Please enter city manually.");
                 getPrayerTimes('Makkah', 'Saudi Arabia');
             }
         }
         
-        // Event listeners
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        
         document.addEventListener('DOMContentLoaded', () => {
             const getLocationBtn = document.getElementById('getLocationBtn');
             const searchBtn = document.getElementById('searchLocationBtn');
@@ -370,7 +627,7 @@
                 countryInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
             }
             
-            // Load default prayer times on page load
+            // Load default prayer times
             getPrayerTimes('Makkah', 'Saudi Arabia');
         });
     </script>
