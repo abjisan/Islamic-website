@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seerah - Life of Prophet Muhammad (PBUH) - IslamicGuide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .seerah-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold);
+        }
+        
+        .timeline-event {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .timeline-event:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: -2.3rem;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+        
+        .event-year {
+            display: inline-block;
+            background: var(--primary-green);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-title {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .event-description p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-nav {
+            background: var(--light-green);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .section-nav a {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            color: var(--dark-green);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .section-nav a:hover {
+            background: var(--gold);
+            color: white;
+        }
+        
+        .quote-box {
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .quote-box i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .family-tree {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .family-member {
+            background: var(--light-green);
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .battle-card {
+            background: white;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--gold);
+        }
+        
+        @media (max-width: 768px) {
+            .seerah-container {
+                padding: 1rem;
+            }
+            .timeline {
+                padding-left: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic<span class="highlight">Guide</span></span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="quran.html"><i class="fas fa-book-quran"></i> Quran</a></li>
+                <li><a href="hadith.html"><i class="fas fa-scroll"></i> Hadith</a></li>
+                <li><a href="duas.html"><i class="fas fa-hands-praying"></i> Duas</a></li>
+                <li><a href="prayers.html"><i class="fas fa-clock"></i> Prayer Times</a></li>
+                <li><a href="beliefs.html"><i class="fas fa-star-and-crescent"></i> Beliefs</a></li>
+                <li><a href="history.html"><i class="fas fa-landmark"></i> History</a></li>
+                <li><a href="seerah.html" class="active"><i class="fas fa-user-prophet"></i> Seerah</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-user-prophet"></i> Seerah - Life of Prophet Muhammad ﷺ</h1>
+            <p>The complete biography of the last messenger of Allah</p>
+        </div>
+    </section>
+
+    <div class="seerah-container">
+        <!-- Quick Navigation -->
+        <div class="section-nav">
+            <a href="#early-life">Early Life</a>
+            <a href="#prophethood">Prophethood</a>
+            <a href="#makkah">Makkan Period</a>
+            <a href="#hijrah">Hijrah</a>
+            <a href="#medina">Medinan Period</a>
+            <a href="#battles">Major Battles</a>
+            <a href="#family">Family</a>
+            <a href="#death">Passing Away</a>
+        </div>
+
+        <!-- Quote Box -->
+        <div class="quote-box">
+            <i class="fas fa-quote-right"></i>
+            <p>"Indeed, in the Messenger of Allah you have an excellent example for whoever has hope in Allah and the Last Day and remembers Allah often."</p>
+            <small>- Quran 33:21</small>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline">
+
+            <!-- Early Life -->
+            <div id="early-life">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-baby"></i> Early Life (570-610 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">570 CE</span>
+                    <h3 class="event-title">Birth of Prophet Muhammad ﷺ</h3>
+                    <div class="event-description">
+                        <p>Prophet Muhammad ﷺ was born in Mecca in the Year of the Elephant ('Am al-Fil). His father, Abdullah, had passed away before his birth [citation:5][citation:8].</p>
+                        <p><strong>Birthplace:</strong> Mecca, Arabia</p>
+                        <p><strong>Lineage:</strong> Descendant of Prophet Ishmael (AS), son of Abraham (AS)</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">575 CE</span>
+                    <h3 class="event-title">Death of Mother Aminah</h3>
+                    <div class="event-description">
+                        <p>When Muhammad ﷺ was six years old, his mother Aminah passed away in Abwa' while returning from Medina. He became an orphan [citation:5][citation:8].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">578 CE</span>
+                    <h3 class="event-title">Death of Grandfather Abdul-Muttalib</h3>
+                    <div class="event-description">
+                        <p>His grandfather Abdul-Muttalib, who had taken care of him, passed away. His uncle Abu Talib became his guardian [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">582 CE</span>
+                    <h3 class="event-title">Journey to Syria with Abu Talib</h3>
+                    <div class="event-description">
+                        <p>At age 12, Muhammad ﷺ accompanied his uncle Abu Talib on a trade journey to Syria. A Christian monk named Bahira recognized the signs of prophethood in him [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">595 CE</span>
+                    <h3 class="event-title">Marriage to Khadijah (RA)</h3>
+                    <div class="event-description">
+                        <p>At age 25, Muhammad ﷺ married Khadijah bint Khuwaylid, a noble and wealthy merchant. She was 40 years old. She became his first and most beloved wife [citation:5][citation:8].</p>
+                        <p><strong>Children from Khadijah:</strong> Qasim, Abdullah, Zainab, Ruqayyah, Umm Kulthum, Fatimah (RA)</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">605 CE</span>
+                    <h3 class="event-title">Rebuilding of the Kaaba</h3>
+                    <div class="event-description">
+                        <p>The Quraysh rebuilt the Kaaba. Muhammad ﷺ was chosen to place the Black Stone (Hajr al-Aswad) due to his honesty and trustworthiness [citation:5].</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prophethood -->
+            <div id="prophethood">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-lightbulb"></i> Beginning of Prophethood (610 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">610 CE</span>
+                    <h3 class="event-title">First Revelation in Cave Hira</h3>
+                    <div class="event-description">
+                        <p>At age 40, while meditating in Cave Hira on Mountain Nur, Angel Jibril (Gabriel) appeared to him with the first revelation [citation:8][citation:9]:</p>
+                        <p style="font-style: italic; background: var(--light-green); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">"Read! In the Name of your Lord Who created. Created man from a clot. Read! And your Lord is the Most Generous." (Quran 96:1-3)</p>
+                        <p>Khadijah (RA) became the first person to accept Islam [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">613 CE</span>
+                    <h3 class="event-title">Public Preaching Begins</h3>
+                    <div class="event-description">
+                        <p>After three years of secret preaching, Prophet ﷺ was commanded to publicly invite people to Islam. He gathered his clan on Safa hill and declared his prophethood [citation:5].</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Makkan Period -->
+            <div id="makkah">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-city"></i> Makkan Period - Persecution (613-622 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">615 CE</span>
+                    <h3 class="event-title">First Migration to Abyssinia (Ethiopia)</h3>
+                    <div class="event-description">
+                        <p>Due to severe persecution by the Quraysh, Prophet ﷺ advised some Muslims to migrate to Abyssinia (Ethiopia) where the Christian king Najashi gave them protection [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">616-619 CE</span>
+                    <h3 class="event-title">Boycott of Banu Hashim</h3>
+                    <div class="event-description">
+                        <p>The Quraysh imposed a social and economic boycott on Banu Hashim (Prophet's clan). Muslims suffered severe hardship for three years [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">619 CE</span>
+                    <h3 class="event-title">Year of Sorrow ('Am al-Huzn)</h3>
+                    <div class="event-description">
+                        <p>Two major losses occurred this year: His beloved wife Khadijah (RA) and his uncle Abu Talib (his protector) both passed away [citation:5][citation:8].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">620 CE</span>
+                    <h3 class="event-title">Isra and Mi'raj (Night Journey & Ascension)</h3>
+                    <div class="event-description">
+                        <p>Prophet ﷺ was miraculously taken from Masjid al-Haram in Mecca to Masjid al-Aqsa in Jerusalem, then ascended to the heavens where he met previous prophets and received the command for five daily prayers [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">621 CE</span>
+                    <h3 class="event-title">First Pledge of Aqabah</h3>
+                    <div class="event-description">
+                        <p>12 people from Medina (then called Yathrib) accepted Islam and pledged to support Prophet ﷺ [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">622 CE</span>
+                    <h3 class="event-title">Second Pledge of Aqabah</h3>
+                    <div class="event-description">
+                        <p>75 people from Medina accepted Islam and invited Prophet ﷺ to migrate to Medina [citation:5].</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hijrah -->
+            <div id="hijrah">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-route"></i> The Hijrah - Migration to Medina (622 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">622 CE</span>
+                    <h3 class="event-title">Migration to Medina</h3>
+                    <div class="event-description">
+                        <p>After receiving divine permission, Prophet ﷺ migrated from Mecca to Medina with his close companion Abu Bakr al-Siddiq (RA). This marks the beginning of the Islamic calendar (Hijri calendar) [citation:5][citation:8].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">622 CE</span>
+                    <h3 class="event-title">Constitution of Medina</h3>
+                    <div class="event-description">
+                        <p>Prophet ﷺ established a treaty between Muslims, Jews, and other tribes in Medina, creating the first Islamic state [citation:5].</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">623 CE</span>
+                    <h3 class="event-title">Brotherhood between Muhajirin and Ansar</h3>
+                    <div class="event-description">
+                        <p>Prophet ﷺ established bonds of brotherhood between the Meccan migrants (Muhajirin) and Medinan helpers (Ansar) [citation:5].</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Major Battles -->
+            <div id="battles">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-fist-raised"></i> Major Battles & Events</h2>
+                
+                <div class="battle-card">
+                    <strong>Battle of Badr (624 CE):</strong> First major battle between Muslims and Quraysh. Muslims won despite being outnumbered 3:1. 313 Muslims vs 1000 Quraysh [citation:5].
+                </div>
+                
+                <div class="battle-card">
+                    <strong>Battle of Uhud (625 CE):</strong> Muslims were defeated due to archers disobeying orders. Prophet ﷺ was injured and his uncle Hamza (RA) was martyred [citation:5].
+                </div>
+                
+                <div class="battle-card">
+                    <strong>Battle of the Trench (627 CE):</strong> The Quraysh and allies (10,000 men) tried to attack Medina. Muslims dug a trench around the city, and the enemy retreated after a 27-day siege [citation:5].
+                </div>
+                
+                <div class="battle-card">
+                    <strong>Treaty of Hudaybiyyah (628 CE):</strong> A 10-year peace treaty between Muslims and Quraysh. Considered a major diplomatic victory for Muslims [citation:5].
+                </div>
+                
+                <div class="battle-card">
+                    <strong>Conquest of Khaybar (628 CE):</strong> Muslim forces conquered the Jewish stronghold of Khaybar [citation:5].
+                </div>
+            </div>
+
+            <!-- Conquest of Mecca -->
+            <div id="medina">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-kaaba"></i> Conquest of Mecca (630 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">630 CE</span>
+                    <h3 class="event-title">Conquest of Mecca (Fath al-Makkah)</h3>
+                    <div class="event-description">
+                        <p>After the Quraysh violated the treaty, Prophet ﷺ marched to Mecca with 10,000 Muslims. The city surrendered without bloodshed. Prophet ﷺ forgave all his enemies and declared a general amnesty [citation:5].</p>
+                        <p><strong>Important event:</strong> He destroyed all 360 idols in the Kaaba and established it as the center of Islamic monotheism.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event">
+                    <span class="event-year">630 CE</span>
+                    <h3 class="event-title">Battle of Hunayn & Siege of Taif</h3>
+                    <div class="event-description">
+                        <p>After Mecca's conquest, Muslim forces fought against the Hawazin tribe at Hunayn. After victory, Taif surrendered [citation:5].</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Farewell Pilgrimage -->
+            <div id="family">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-hands-praying"></i> Farewell Pilgrimage (632 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">632 CE</span>
+                    <h3 class="event-title">Farewell Hajj & Farewell Sermon</h3>
+                    <div class="event-description">
+                        <p>Prophet ﷺ performed his first and only Hajj after the conquest of Mecca. On the plain of Arafat, he delivered the famous Farewell Sermon [citation:5].</p>
+                        <p><strong>Key teachings from the sermon:</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Sanctity of life, property, and honor</li>
+                            <li>Equality of all humans regardless of race</li>
+                            <li>Rights of women</li>
+                            <li>Usury (interest) is forbidden</li>
+                            <li>"I leave behind two things: The Quran and my Sunnah"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Death -->
+            <div id="death">
+                <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-mosque"></i> Passing Away (632 CE)</h2>
+                
+                <div class="timeline-event">
+                    <span class="event-year">632 CE</span>
+                    <h3 class="event-title">Death of Prophet Muhammad ﷺ</h3>
+                    <div class="event-description">
+                        <p>On Monday, June 8, 632 CE (12 Rabi' al-Awwal 11 AH), Prophet Muhammad ﷺ passed away at the age of 63 in Medina. He was buried in the chamber of his wife Aisha (RA), which is now part of the Prophet's Mosque (Al-Masjid al-Nabawi) [citation:5][citation:8].</p>
+                        <p>His close companion Abu Bakr (RA) announced: "Whoever worshipped Muhammad, know that Muhammad is dead. Whoever worshipped Allah, know that Allah is Ever-Living and never dies."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Family Section -->
+        <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-users"></i> Family of Prophet Muhammad ﷺ</h2>
+        
+        <div class="family-tree">
+            <div class="family-member">
+                <strong>Parents</strong><br>
+                Abdullah (father)<br>
+                Aminah (mother)
+            </div>
+            <div class="family-member">
+                <strong>Grandfather</strong><br>
+                Abdul-Muttalib
+            </div>
+            <div class="family-member">
+                <strong>Wives</strong><br>
+                Khadijah, Sawda,<br>
+                Aisha, Hafsa,<br>
+                Zainab, Umm Salama,<br>
+                and 5 more [citation:5]
+            </div>
+            <div class="family-member">
+                <strong>Daughters</strong><br>
+                Zainab, Ruqayyah,<br>
+                Umm Kulthum,<br>
+                Fatimah (RA)
+            </div>
+            <div class="family-member">
+                <strong>Sons</strong><br>
+                Qasim, Abdullah,<br>
+                Ibrahim (all died young)
+            </div>
+        </div>
+
+        <!-- Key Characteristics -->
+        <h2 style="color: var(--dark-green); margin: 2rem 0 1rem 0;"><i class="fas fa-star"></i> Characteristics & Virtues</h2>
+        
+        <div class="timeline-event">
+            <div class="event-description">
+                <ul style="margin-left: 1.5rem;">
+                    <li><strong>Al-Amin (The Trustworthy):</strong> Known for honesty even before prophethood [citation:5]</li>
+                    <li><strong>Mercy to the Worlds:</strong> "And We have not sent you, (O Muhammad), except as a mercy to the worlds" (Quran 21:107)</li>
+                    <li><strong>Forgiving nature:</strong> Forgave his worst enemies after conquering Mecca</li>
+                    <li><strong>Humble:</strong> Used to repair his own shoes, milk his goat, and help with household chores</li>
+                    <li><strong>Just leader:</strong> Established justice for all regardless of religion or race</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sources -->
+        <div style="background: var(--gray-bg); padding: 1rem; border-radius: 8px; margin: 2rem 0;">
+            <h3><i class="fas fa-book"></i> Sources</h3>
+            <p>This biography is compiled from authentic sources including:</p>
+            <ul>
+                <li>The Holy Quran</li>
+                <li>Sahih Bukhari & Sahih Muslim</li>
+                <li>Ar-Raheeq Al-Makhtum (The Sealed Nectar)</li>
+                <li>Ibn Ishaq's Biography of the Prophet</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About IslamicGuide</h3>
+                    <p>Providing authentic Islamic knowledge.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="hadith.html">Hadith</a></li>
+                        <li><a href="seerah.html">Seerah</a></li>
+                        <li><a href="prayers.html">Prayer Times</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 IslamicGuide. All rights reserved.</p>
+                <div class="disclaimer">
+                    <i class="fas fa-info-circle"></i> 
+                    May peace and blessings be upon Prophet Muhammad ﷺ, his family, and his companions.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Add active class to navigation based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.timeline > div');
+            const navLinks = document.querySelectorAll('.section-nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
