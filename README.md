@@ -14,9 +14,10 @@ A comprehensive, fully responsive Islamic website providing authentic knowledge 
 
 **Visit the website:** [https://abjisan.github.io/Islamic-website/](https://abjisan.github.io/Islamic-website/)
 
-![Islamic Guide Homepage](https://via.placeholder.com/800x400?text=Islamic+Guide+Homepage)
+## 📸 Website Preview
 
----
+![Islamic Guide Homepage](assets/homepage.png)
+
 
 ## ✨ Features
 
