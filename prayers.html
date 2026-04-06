@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times - IslamicGuide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic<span class="highlight">Guide</span></span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="quran.html"><i class="fas fa-book-quran"></i> Quran</a></li>
+                <li><a href="hadith.html"><i class="fas fa-scroll"></i> Hadith</a></li>
+                <li><a href="duas.html"><i class="fas fa-hands-praying"></i> Duas</a></li>
+                <li><a href="prayers.html" class="active"><i class="fas fa-clock"></i> Prayer Times</a></li>
+                <li><a href="beliefs.html"><i class="fas fa-star-and-crescent"></i> Beliefs</a></li>
+                <li><a href="history.html"><i class="fas fa-landmark"></i> History</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-clock"></i> Prayer Times</h1>
+            <p>Get accurate prayer times for your location</p>
+        </div>
+    </section>
+
+    <section class="prayer-times-section">
+        <div class="container">
+            <div class="location-controls">
+                <button id="getLocationBtn" class="btn btn-primary"><i class="fas fa-location-dot"></i> Use My Location</button>
+                <div class="manual-location">
+                    <input type="text" id="cityInput" placeholder="Enter city name">
+                    <input type="text" id="countryInput" placeholder="Enter country">
+                    <button id="searchLocationBtn" class="btn btn-secondary">Get Times</button>
+                </div>
+            </div>
+
+            <div id="prayerTimesDisplay" class="prayer-times-card">
+                <div class="current-date">
+                    <h3 id="gregorianDate">Loading...</h3>
+                    <p id="hijriDatePrayer">Loading Hijri date...</p>
+                </div>
+                <div class="prayer-times-grid">
+                    <div class="prayer-time-item">
+                        <i class="fas fa-sun"></i>
+                        <h4>Fajr</h4>
+                        <p id="fajr">--:--</p>
+                    </div>
+                    <div class="prayer-time-item">
+                        <i class="fas fa-sun"></i>
+                        <h4>Sunrise</h4>
+                        <p id="sunrise">--:--</p>
+                    </div>
+                    <div class="prayer-time-item">
+                        <i class="fas fa-sun"></i>
+                        <h4>Dhuhr</h4>
+                        <p id="dhuhr">--:--</p>
+                    </div>
+                    <div class="prayer-time-item">
+                        <i class="fas fa-sun"></i>
+                        <h4>Asr</h4>
+                        <p id="asr">--:--</p>
+                    </div>
+                    <div class="prayer-time-item">
+                        <i class="fas fa-moon"></i>
+                        <h4>Maghrib</h4>
+                        <p id="maghrib">--:--</p>
+                    </div>
+                    <div class="prayer-time-item">
+                        <i class="fas fa-moon"></i>
+                        <h4>Isha</h4>
+                        <p id="isha">--:--</p>
+                    </div>
+                </div>
+                <div class="next-prayer">
+                    <h4>Next Prayer:</h4>
+                    <p id="nextPrayer">Calculating...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About IslamicGuide</h3>
+                    <p>Providing authentic Islamic knowledge to help you understand and practice Islam correctly.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="hadith.html">Hadith</a></li>
+                        <li><a href="prayers.html">Prayer Times</a></li>
+                        <li><a href="duas.html">Duas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="https://quran.com" target="_blank">Quran.com</a></li>
+                        <li><a href="https://sunnah.com" target="_blank">Sunnah.com</a></li>
+                        <li><a href="https://islamqa.info" target="_blank">IslamQA</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 IslamicGuide. All rights reserved.</p>
+                <div class="disclaimer">
+                    <i class="fas fa-info-circle"></i> 
+                    Prayer times are calculated using standard calculation methods.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/prayers.js"></script>
+</body>
+</html>

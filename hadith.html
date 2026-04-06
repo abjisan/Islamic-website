@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadith - IslamicGuide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic<span class="highlight">Guide</span></span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="quran.html"><i class="fas fa-book-quran"></i> Quran</a></li>
+                <li><a href="hadith.html" class="active"><i class="fas fa-scroll"></i> Hadith</a></li>
+                <li><a href="duas.html"><i class="fas fa-hands-praying"></i> Duas</a></li>
+                <li><a href="prayers.html"><i class="fas fa-clock"></i> Prayer Times</a></li>
+                <li><a href="beliefs.html"><i class="fas fa-star-and-crescent"></i> Beliefs</a></li>
+                <li><a href="history.html"><i class="fas fa-landmark"></i> History</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-scroll"></i> Prophetic Hadith</h1>
+            <p>Authentic sayings of Prophet Muhammad (PBUH)</p>
+        </div>
+    </section>
+
+    <section class="hadith-content">
+        <div class="container">
+            <div class="hadith-collections">
+                <div class="hadith-card">
+                    <h3>Sahih Bukhari</h3>
+                    <p>Most authentic hadith collection</p>
+                    <a href="https://sunnah.com/bukhari" target="_blank" class="btn btn-primary">Read Hadith</a>
+                </div>
+                <div class="hadith-card">
+                    <h3>Sahih Muslim</h3>
+                    <p>Second most authentic collection</p>
+                    <a href="https://sunnah.com/muslim" target="_blank" class="btn btn-primary">Read Hadith</a>
+                </div>
+                <div class="hadith-card">
+                    <h3>Sunan Abu Dawud</h3>
+                    <p>Collection of legal rulings</p>
+                    <a href="https://sunnah.com/abudawud" target="_blank" class="btn btn-primary">Read Hadith</a>
+                </div>
+            </div>
+            
+            <div class="featured-hadith">
+                <h2>Featured Hadith</h2>
+                <div class="hadith-box">
+                    <p>"The best among you are those who have the best manners and character."</p>
+                    <small>- Sahih Bukhari</small>
+                </div>
+                <div class="hadith-box">
+                    <p>"Seeking knowledge is obligatory upon every Muslim."</p>
+                    <small>- Ibn Majah</small>
+                </div>
+                <div class="hadith-box">
+                    <p>"None of you truly believes until he loves for his brother what he loves for himself."</p>
+                    <small>- Sahih Bukhari & Muslim</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About IslamicGuide</h3>
+                    <p>Providing authentic Islamic knowledge to help you understand and practice Islam correctly.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="hadith.html">Hadith</a></li>
+                        <li><a href="prayers.html">Prayer Times</a></li>
+                        <li><a href="duas.html">Duas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="https://quran.com" target="_blank">Quran.com</a></li>
+                        <li><a href="https://sunnah.com" target="_blank">Sunnah.com</a></li>
+                        <li><a href="https://islamqa.info" target="_blank">IslamQA</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 IslamicGuide. All rights reserved.</p>
+                <div class="disclaimer">
+                    <i class="fas fa-info-circle"></i> 
+                    For religious rulings, consult qualified local scholars.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .hadith-collections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .hadith-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .featured-hadith {
+            margin-top: 3rem;
+        }
+        .hadith-box {
+            background: var(--light-green);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+            border-left: 4px solid var(--gold);
+        }
+    </style>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran - IslamicGuide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-mosque"></i>
+                <span>Islamic<span class="highlight">Guide</span></span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="quran.html" class="active"><i class="fas fa-book-quran"></i> Quran</a></li>
+                <li><a href="hadith.html"><i class="fas fa-scroll"></i> Hadith</a></li>
+                <li><a href="duas.html"><i class="fas fa-hands-praying"></i> Duas</a></li>
+                <li><a href="prayers.html"><i class="fas fa-clock"></i> Prayer Times</a></li>
+                <li><a href="beliefs.html"><i class="fas fa-star-and-crescent"></i> Beliefs</a></li>
+                <li><a href="history.html"><i class="fas fa-landmark"></i> History</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-book-quran"></i> The Holy Quran</h1>
+            <p>Read, listen, and understand the words of Allah</p>
+        </div>
+    </section>
+
+    <section class="quran-browser">
+        <div class="container">
+            <div class="quran-controls">
+                <input type="text" id="searchSurah" placeholder="Search Surah by name or number..." class="search-input">
+                <select id="translationSelect" class="translation-select">
+                    <option value="en.sahih">Sahih International (English)</option>
+                    <option value="en.pickthall">Muhammad Pickthall (English)</option>
+                    <option value="en.yusufali">Abdullah Yusuf Ali (English)</option>
+                    <option value="ur.jalandhry">Jalandhry (Urdu)</option>
+                </select>
+            </div>
+            <div id="surahList" class="surah-grid">
+                <!-- Surahs will be loaded here -->
+                <div class="loading">Loading Quran...</div>
+            </div>
+            <div id="ayahViewer" class="ayah-viewer" style="display: none;">
+                <button id="closeAyahViewer" class="close-btn"><i class="fas fa-times"></i></button>
+                <div id="ayahContent"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About IslamicGuide</h3>
+                    <p>Providing authentic Islamic knowledge to help you understand and practice Islam correctly.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="hadith.html">Hadith</a></li>
+                        <li><a href="prayers.html">Prayer Times</a></li>
+                        <li><a href="duas.html">Duas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="https://quran.com" target="_blank">Quran.com</a></li>
+                        <li><a href="https://sunnah.com" target="_blank">Sunnah.com</a></li>
+                        <li><a href="https://islamqa.info" target="_blank">IslamQA</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 IslamicGuide. All rights reserved.</p>
+                <div class="disclaimer">
+                    <i class="fas fa-info-circle"></i> 
+                    Quran translations from Sahih International and other sources.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/quran.js"></script>
+</body>
+</html>
